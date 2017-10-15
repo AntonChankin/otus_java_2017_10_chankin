@@ -106,15 +106,23 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <proguardVersion>5.3.3</proguardVersion>
-                    <obfuscate>true</obfuscate>
                     <options>
-                        <option>-allowaccessmodification</option>
-                        <option>-keep class com.antonchankin.otus.hw01.App {public static void main( java.lang.String[]);}</option>
+                        <option>-keep public class com.antonchankin.otus.hw01.App {public static void main( java.lang.String[]);}</option>
+                        <option>-keepattributes *Annotation*,EnclosingMethod,Signature,InnerClasses</option>
+                        <option>-dontwarn</option>
                     </options>
+                    <injar>${project.build.finalName}.jar</injar>
+                    <outjar>${project.build.finalName}-small.jar</outjar>
+                    <outputDirectory>${project.build.directory}</outputDirectory>
                     <libs>
                         <lib>${java.home}/lib/rt.jar</lib>
+                        <lib>${java.home}/lib/jce.jar</lib>
+                        <lib>${java.home}/lib/ext/sunjce_provider.jar</lib>
                     </libs>
+                    <obfuscate>true</obfuscate>
+                    <attach>true</attach>
+                    <addMavenDescriptor>false</addMavenDescriptor>
+
                 </configuration>
             </plugin>
         </plugins>
