@@ -2,15 +2,10 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-    <!--The identifier of the parent POM-->
-    <parent>
-        <groupId>com.antonchankin.com</groupId>
-        <artifactId>Homework-Parent</artifactId>
-        <version>0.0.1</version>
-    </parent>
-
+    <groupId>com.antonchankin.com</groupId>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>homework-01</artifactId>
+    <version>0.0.1</version>
     <name>homework-01</name>
     <packaging>jar</packaging>
 
@@ -26,9 +21,9 @@
             <version>3.4</version>
         </dependency>
         <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-            <version>1.2.17</version>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.5</version>
         </dependency>
     </dependencies>
 
@@ -108,8 +103,6 @@
                 <configuration>
                     <options>
                         <option>-keep public class com.antonchankin.otus.hw01.App {public static void main( java.lang.String[]);}</option>
-                        <option>-keepattributes *Annotation*,EnclosingMethod,Signature,InnerClasses</option>
-                        <option>-dontwarn</option>
                     </options>
                     <injar>${project.build.finalName}.jar</injar>
                     <outjar>${project.build.finalName}-small.jar</outjar>
@@ -117,7 +110,6 @@
                     <libs>
                         <lib>${java.home}/lib/rt.jar</lib>
                         <lib>${java.home}/lib/jce.jar</lib>
-                        <lib>${java.home}/lib/ext/sunjce_provider.jar</lib>
                     </libs>
                     <obfuscate>true</obfuscate>
                     <attach>true</attach>
