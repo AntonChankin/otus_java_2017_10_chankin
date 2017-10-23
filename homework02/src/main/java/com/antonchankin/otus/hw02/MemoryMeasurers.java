@@ -3,32 +3,43 @@ package com.antonchankin.otus.hw02;
 import java.lang.management.ManagementFactory;
 import java.math.BigDecimal;
 import java.math.MathContext;
+import java.math.RoundingMode;
 
 public class MemoryMeasurers implements Measurers {
+
+    private static final int PRECISION = 10000;
+    private static final int SIZE = 20_000_000;
+
+    public MemoryMeasurers() {
+        System.out.println("pid: " + ManagementFactory.getRuntimeMXBean().getName());
+    }
+
     public BigDecimal measure(Object object) {
         BigDecimal answer = null;
         Runtime runtime = Runtime.getRuntime();
 
-        System.out.println("pid: " + ManagementFactory.getRuntimeMXBean().getName());
-
-        int size = 20_000_000;
-
-        System.out.println("Starting the loop");
-        Object[] array = new Object[size];
-        long start = runtime.totalMemory() - runtime.freeMemory();
-        System.out.println("New array of size: " + array.length + " created");
-        for (int i = 0; i < size; i++) {
-            array[i] = new Object();
-            //array[i] = new String(""); //String pool
-            //array[i] = new String(new char[0]); //without String pool
-            //array[i] = new MyClass();
+        if (object != null) {
+            System.out.println("Starting the loop for class " + object.getClass());
+            Object[] array = new Object[SIZE];
+            long start = runtime.totalMemory() - runtime.freeMemory();
+            System.out.println("New array of size: " + array.length + " created");
+            try {
+                for (int i = 0; i < SIZE; i++) {
+                    array[i] = object.getClass().newInstance();
+                }
+                System.out.println("Created " + SIZE + " objects.");
+                long finish = runtime.totalMemory() - runtime.freeMemory();
+                BigDecimal total = new BigDecimal(finish - start);
+                MathContext context = new MathContext(PRECISION, RoundingMode.HALF_EVEN);
+                answer = total.divide(BigDecimal.valueOf(SIZE), context);
+            } catch (InstantiationException e) {
+                System.out.println("Cannot instantiate an object of class " + object.getClass());
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                System.out.println("Default constructor is not public in class " + object.getClass());
+                e.printStackTrace();
+            }
         }
-        System.out.println("Created " + size + " objects.");
-        long finish = runtime.totalMemory() - runtime.freeMemory();
-        BigDecimal total = new BigDecimal(finish - start);
-        MathContext context = new MathContext()
-        answer = total.divide(BigDecimal.valueOf(size));
-
         return answer;
     }
 }
