@@ -30,7 +30,7 @@ public class MemoryMeasurers implements Measurers {
                 System.out.println("Created " + SIZE + " objects.");
                 long finish = runtime.totalMemory() - runtime.freeMemory();
                 BigDecimal total = new BigDecimal(finish - start);
-                MathContext context = new MathContext(PRECISION, RoundingMode.HALF_EVEN);
+                MathContext context = new MathContext(PRECISION, RoundingMode.HALF_UP);
                 answer = total.divide(BigDecimal.valueOf(SIZE), context);
             } catch (InstantiationException e) {
                 System.out.println("Cannot instantiate an object of class " + object.getClass());
