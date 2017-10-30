@@ -11,10 +11,7 @@ public class App
     public static void main( String[] args )
     {
         System.out.println("pid: " + ManagementFactory.getRuntimeMXBean().getName());
-
+        OtusArrayList<Integer> list = new OtusArrayList<>(5);
+        
     }
-
-
-
-
 }
