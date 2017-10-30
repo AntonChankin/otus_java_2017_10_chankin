@@ -1,24 +1,47 @@
 package com.antonchankin.otus.hw03;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
+import java.lang.reflect.Array;
+import java.util.*;
 
 public class OtusArrayList<E> implements List<E> {
+    private static final int DEFAULT_SIZE = 10;
+    private Object[] array;
+    private int size = 0;
+
+    public OtusArrayList() {
+        array = new Object[DEFAULT_SIZE];
+    }
+
+    public OtusArrayList(int initialCapacity) {
+        if (initialCapacity > 0) {
+            array = new Object[initialCapacity];
+        } else {
+            array = new Object[0];
+        }
+    }
+
     @Override
     public int size() {
-        return 0;
+        return size;
     }
 
     @Override
     public boolean isEmpty() {
-        return false;
+        return size > 0;
     }
 
     @Override
     public boolean contains(Object o) {
-        return false;
+        boolean answer = false;
+        if (o != null && size > 0) {
+            for (int i = 0; i < array.length; i++) {
+                if (o.equals(array[i])) {
+                    answer = true;
+                    break;
+                }
+            }
+        }
+        return answer;
     }
 
     @Override
@@ -28,22 +51,29 @@ public class OtusArrayList<E> implements List<E> {
 
     @Override
     public Object[] toArray() {
-        return new Object[0];
+        return Arrays.copyOf(array, array.length);
     }
 
     @Override
     public <T> T[] toArray(T[] a) {
-        return null;
+        return (T[]) Arrays.copyOf(array, array.length, a.getClass());
     }
+
 
     @Override
     public boolean add(E e) {
-        return false;
+        boolean answer = false;
+        if (e != null) {
+
+        }
+        return answer;
     }
 
     @Override
     public boolean remove(Object o) {
-        return false;
+        boolean answer = false;
+
+        return answer;
     }
 
     @Override
@@ -73,7 +103,8 @@ public class OtusArrayList<E> implements List<E> {
 
     @Override
     public void clear() {
-
+        size = 0;
+        array = new Object[0];
     }
 
     @Override
