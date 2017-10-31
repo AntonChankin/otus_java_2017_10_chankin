@@ -3,8 +3,15 @@ package com.antonchankin.otus.hw03;
 import java.lang.reflect.Array;
 import java.util.*;
 
+/**
+ * Custom implementation of array based List. Not thread safe.
+ * @param <E> Element of List
+ */
 public class OtusArrayList<E> implements List<E> {
     private static final int DEFAULT_SIZE = 10;
+    private static final float THRESHOLD_DOWN = 0.5F;
+    private static final float THRESHOLD_UP = 0.75F;
+    private static final int RESIZE_MULTIPLIER = 2;
     private Object[] array;
     private int size = 0;
 
@@ -46,7 +53,19 @@ public class OtusArrayList<E> implements List<E> {
 
     @Override
     public Iterator<E> iterator() {
-        return null;
+        final Iterator<E> iterator = new Iterator<E>() {
+            private int idx = 0;
+            @Override
+            public boolean hasNext() {
+                return size > idx;
+            }
+
+            @Override
+            public E next() {
+                return (E)array[idx++];
+            }
+        };
+        return iterator;
     }
 
     @Override
@@ -64,7 +83,9 @@ public class OtusArrayList<E> implements List<E> {
     public boolean add(E e) {
         boolean answer = false;
         if (e != null) {
-
+            int pos = size + 1;
+            updateArraySize(pos);
+            array[pos] = e;
         }
         return answer;
     }
@@ -72,7 +93,19 @@ public class OtusArrayList<E> implements List<E> {
     @Override
     public boolean remove(Object o) {
         boolean answer = false;
-
+        if (o != null) {
+            int pos = -1;
+            for (int i = 0; i < size; i++) {
+                if (o.equals(array[i])){
+                    pos = i;
+                    break;
+                }
+            }
+            if (pos > 0) {
+                System.arraycopy(array, pos + 1, array, pos, size - pos);
+                answer = true;
+            }
+        }
         return answer;
     }
 
@@ -150,5 +183,70 @@ public class OtusArrayList<E> implements List<E> {
     @Override
     public List<E> subList(int fromIndex, int toIndex) {
         return null;
+    }
+
+    private boolean updateArraySize(int newSize){
+        boolean isChanged = false;
+        Object[] newArray = null;
+        if (newSize > size && newSize > array.length * THRESHOLD_UP) {
+            newArray = new Object[RESIZE_MULTIPLIER * array.length];
+            isChanged = true;
+        } else if (newSize < size && newSize < array.length * THRESHOLD_DOWN) {
+            newArray = new Object[array.length / RESIZE_MULTIPLIER];
+            isChanged = true;
+        }
+        if (isChanged) {
+            Arrays.copyOf(array, array.length, newArray.getClass());
+            size = newSize;
+        }
+        return isChanged;
+    }
+
+    private class OtusListIterator<E> implements ListIterator<E> {
+
+        @Override
+        public boolean hasNext() {
+            return false;
+        }
+
+        @Override
+        public E next() {
+            return null;
+        }
+
+        @Override
+        public boolean hasPrevious() {
+            return false;
+        }
+
+        @Override
+        public E previous() {
+            return null;
+        }
+
+        @Override
+        public int nextIndex() {
+            return 0;
+        }
+
+        @Override
+        public int previousIndex() {
+            return 0;
+        }
+
+        @Override
+        public void remove() {
+
+        }
+
+        @Override
+        public void set(E e) {
+
+        }
+
+        @Override
+        public void add(E e) {
+
+        }
     }
 }
