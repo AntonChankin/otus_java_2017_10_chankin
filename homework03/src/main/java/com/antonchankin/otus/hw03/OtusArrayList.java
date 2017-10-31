@@ -27,6 +27,14 @@ public class OtusArrayList<E> implements List<E> {
         }
     }
 
+    private OtusArrayList(E[] initArray){
+        if (Objects.isNull(initArray)){
+            throw new IllegalArgumentException("Initial array cannot be null");
+        }
+        array = initArray;
+        size = array.length;
+    }
+
     @Override
     public int size() {
         return size;
@@ -39,16 +47,7 @@ public class OtusArrayList<E> implements List<E> {
 
     @Override
     public boolean contains(Object o) {
-        boolean answer = false;
-        if (o != null && size > 0) {
-            for (int i = 0; i < array.length; i++) {
-                if (o.equals(array[i])) {
-                    answer = true;
-                    break;
-                }
-            }
-        }
-        return answer;
+        return indexOf(o) >= 0;
     }
 
     @Override
@@ -111,7 +110,16 @@ public class OtusArrayList<E> implements List<E> {
 
     @Override
     public boolean containsAll(Collection<?> c) {
-        return false;
+        boolean result = c != null;
+        if (result) {
+            for (Object o : c) {
+                if(!contains(o)){
+                    result = false;
+                    break;
+                }
+            }
+        }
+        return result;
     }
 
     @Override
@@ -142,12 +150,14 @@ public class OtusArrayList<E> implements List<E> {
 
     @Override
     public E get(int index) {
-        return null;
+        return (E)array[index];
     }
 
     @Override
     public E set(int index, E element) {
-        return null;
+        E prev = (E)array[index];
+        array[index] = element;
+        return prev;
     }
 
     @Override
@@ -162,27 +172,46 @@ public class OtusArrayList<E> implements List<E> {
 
     @Override
     public int indexOf(Object o) {
-        return 0;
+        int pos = -1;
+        if (o != null && size > 0) {
+            for (int i = 0; i < array.length; i++) {
+                if (o.equals(array[i])) {
+                    pos = i;
+                    break;
+                }
+            }
+        }
+        return pos;
     }
 
     @Override
     public int lastIndexOf(Object o) {
-        return 0;
+        int pos = -1;
+        if (o != null && size > 0) {
+            for (int i = 0; i < array.length; i++) {
+                if (o.equals(array[i])) {
+                    pos = i;
+                }
+            }
+        }
+        return pos;
     }
 
     @Override
     public ListIterator<E> listIterator() {
-        return null;
+        return new OtusListIterator();
     }
 
     @Override
     public ListIterator<E> listIterator(int index) {
-        return null;
+        return new OtusListIterator(index);
     }
 
     @Override
     public List<E> subList(int fromIndex, int toIndex) {
-        return null;
+        Object[] subArray = new Object[toIndex - fromIndex];
+                System.arraycopy(array, fromIndex, array, pos, size - pos);
+        return new OtusArrayList<>();
     }
 
     private boolean updateArraySize(int newSize){
@@ -202,51 +231,59 @@ public class OtusArrayList<E> implements List<E> {
         return isChanged;
     }
 
-    private class OtusListIterator<E> implements ListIterator<E> {
+    private class OtusListIterator implements ListIterator<E> {
+        private int idx = 0;
+
+        public OtusListIterator(int start) {
+            this.idx = start;
+        }
+
+        public OtusListIterator() {
+        }
 
         @Override
         public boolean hasNext() {
-            return false;
+            return idx < size;
         }
 
         @Override
         public E next() {
-            return null;
+            return (E)array[idx++];
         }
 
         @Override
         public boolean hasPrevious() {
-            return false;
+            return idx > 0;
         }
 
         @Override
         public E previous() {
-            return null;
+            return (E)array[idx--];
         }
 
         @Override
         public int nextIndex() {
-            return 0;
+            return idx + 1;
         }
 
         @Override
         public int previousIndex() {
-            return 0;
+            return idx - 1;
         }
 
         @Override
         public void remove() {
-
+            OtusArrayList.this.remove(idx);
         }
 
         @Override
         public void set(E e) {
-
+            OtusArrayList.this.set(idx, e);
         }
 
         @Override
         public void add(E e) {
-
+            OtusArrayList.this.add(idx,e);
         }
     }
 }
