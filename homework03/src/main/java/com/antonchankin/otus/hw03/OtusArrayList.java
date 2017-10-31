@@ -132,21 +132,25 @@ public class OtusArrayList<E> implements List<E> {
 
     @Override
     public boolean addAll(Collection<? extends E> c) {
+        //TODO: implement addAll
         return false;
     }
 
     @Override
     public boolean addAll(int index, Collection<? extends E> c) {
+        //TODO: implement addAll
         return false;
     }
 
     @Override
     public boolean removeAll(Collection<?> c) {
+        //TODO: implement removeAll
         return false;
     }
 
     @Override
     public boolean retainAll(Collection<?> c) {
+        //TODO: implement retainAll
         return false;
     }
 
@@ -170,12 +174,17 @@ public class OtusArrayList<E> implements List<E> {
 
     @Override
     public void add(int index, E element) {
-
+        updateArraySize(size + 1);
+        System.arraycopy(array, index , array, index + 1, size - index);
+        array[index] = element;
     }
 
     @Override
     public E remove(int index) {
-        return null;
+        E prev = (E)array[index];
+        updateArraySize(size - 1);
+        System.arraycopy(array, index + 1, array, index, size - index);
+        return prev;
     }
 
     @Override
@@ -222,7 +231,7 @@ public class OtusArrayList<E> implements List<E> {
 
     @Override
     public void sort(Comparator<? super E> c) {
-
+        //TODO: implement sort
     }
 
     private boolean updateArraySize(int newSize){
