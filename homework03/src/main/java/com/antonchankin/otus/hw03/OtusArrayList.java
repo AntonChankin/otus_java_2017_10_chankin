@@ -88,18 +88,18 @@ public class OtusArrayList<E> implements List<E> {
 
     @Override
     public boolean add(E e) {
-        boolean answer = false;
+        boolean result = false;
         if (e != null) {
-            int pos = size + 1;
-            updateArraySize(pos);
+            int pos = size;
+            updateArraySize(pos + 1);
             array[pos] = e;
         }
-        return answer;
+        return result;
     }
 
     @Override
     public boolean remove(Object o) {
-        boolean answer = false;
+        boolean result = false;
         if (o != null) {
             int pos = -1;
             for (int i = 0; i < size; i++) {
@@ -110,10 +110,10 @@ public class OtusArrayList<E> implements List<E> {
             }
             if (pos > 0) {
                 System.arraycopy(array, pos + 1, array, pos, size - pos);
-                answer = true;
+                result = true;
             }
         }
-        return answer;
+        return result;
     }
 
     @Override
@@ -246,8 +246,8 @@ public class OtusArrayList<E> implements List<E> {
         }
         if (isChanged) {
             Arrays.copyOf(array, array.length, newArray.getClass());
-            size = newSize;
         }
+        size = newSize;
         return isChanged;
     }
 
