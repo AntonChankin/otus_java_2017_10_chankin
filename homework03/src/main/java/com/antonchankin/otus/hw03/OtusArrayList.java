@@ -1,7 +1,15 @@
 package com.antonchankin.otus.hw03;
 
-import java.lang.reflect.Array;
-import java.util.*;
+import java.util.AbstractList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Objects;
+import java.util.RandomAccess;
+import java.util.function.UnaryOperator;
 
 /**
  * Custom implementation of array based List. Not thread safe.
@@ -209,9 +217,12 @@ public class OtusArrayList<E> implements List<E> {
 
     @Override
     public List<E> subList(int fromIndex, int toIndex) {
-        Object[] subArray = new Object[toIndex - fromIndex];
-                System.arraycopy(array, fromIndex, array, pos, size - pos);
-        return new OtusArrayList<>();
+        return new SubList(this,fromIndex, toIndex);
+    }
+
+    @Override
+    public void sort(Comparator<? super E> c) {
+
     }
 
     private boolean updateArraySize(int newSize){
@@ -284,6 +295,39 @@ public class OtusArrayList<E> implements List<E> {
         @Override
         public void add(E e) {
             OtusArrayList.this.add(idx,e);
+        }
+    }
+
+    private class SubList extends AbstractList<E> implements RandomAccess {
+        private final OtusArrayList<E> parent;
+        private final int start;
+        private final int finish;
+        int size;
+
+        public SubList(OtusArrayList<E> parent, int start, int finish) {
+            this.parent = parent;
+            this.start = start;
+            this.finish = finish;
+        }
+
+        @Override
+        public E get(int index) {
+            return null;
+        }
+
+        @Override
+        public int size() {
+            return 0;
+        }
+
+        @Override
+        public void replaceAll(UnaryOperator<E> operator) {
+
+        }
+
+        @Override
+        public void sort(Comparator<? super E> c) {
+
         }
     }
 }
