@@ -50,7 +50,7 @@ public class OtusArrayList<E> implements List<E> {
 
     @Override
     public boolean isEmpty() {
-        return size > 0;
+        return size == 0;
     }
 
     @Override
@@ -132,26 +132,51 @@ public class OtusArrayList<E> implements List<E> {
 
     @Override
     public boolean addAll(Collection<? extends E> c) {
-        //TODO: implement addAll
-        return false;
+        boolean result = c != null;
+        if (result) {
+            addAll(size, c);
+        }
+        return result;
     }
 
     @Override
     public boolean addAll(int index, Collection<? extends E> c) {
-        //TODO: implement addAll
-        return false;
+        boolean result = c != null;
+        if (result) {
+            Object[] newArray = new Object[size + c.size()];
+            Object[] collection = c.toArray();
+            System.arraycopy(array, 0 , newArray, 0, index);
+            System.arraycopy(collection, 0 , newArray, index, collection.length);
+            System.arraycopy(array, index+1 , newArray, collection.length, size - index);
+            array = newArray;
+            size = newArray.length;
+        }
+        return result;
     }
 
     @Override
     public boolean removeAll(Collection<?> c) {
-        //TODO: implement removeAll
-        return false;
+        boolean result = false;
+        for (Object element : c) {
+            result = remove(element) || result;
+        }
+        return result;
     }
 
     @Override
     public boolean retainAll(Collection<?> c) {
-        //TODO: implement retainAll
-        return false;
+        boolean result = false;
+        Object[] newArray = new Object[size];
+        int index = 0;
+        for (int i = 0; i < size; i++) {
+            if (c.contains(array[i])){
+                newArray[index++] = array[i];
+            }
+            result = true;
+        }
+        array = newArray;
+        size = index;
+        return result;
     }
 
     @Override
@@ -307,7 +332,7 @@ public class OtusArrayList<E> implements List<E> {
         }
     }
 
-    private class SubList extends AbstractList<E> implements RandomAccess {
+    private class SubList extends AbstractList<E> implements RandomAccess {       //TODO: Implement sublist
         private final OtusArrayList<E> parent;
         private final int start;
         private final int finish;
