@@ -256,7 +256,14 @@ public class OtusArrayList<E> implements List<E> {
 
     @Override
     public void sort(Comparator<? super E> c) {
-        //TODO: implement sort
+        cutToSize();
+        Arrays.sort((E[])array, c);
+    }
+
+    private void cutToSize(){
+        Object[] newArray = new Object[size];
+        System.arraycopy(array, 0, newArray, 0, size );
+        array = newArray;
     }
 
     private boolean updateArraySize(int newSize){
@@ -270,7 +277,8 @@ public class OtusArrayList<E> implements List<E> {
             isChanged = true;
         }
         if (isChanged) {
-            Arrays.copyOf(array, array.length, newArray.getClass());
+            System.arraycopy(array, 0, newArray, 0, size );
+            array = newArray;
         }
         size = newSize;
         return isChanged;
