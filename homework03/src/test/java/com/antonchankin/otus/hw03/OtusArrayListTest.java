@@ -3,15 +3,21 @@ package com.antonchankin.otus.hw03;
 import junit.framework.TestCase;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
 public class OtusArrayListTest extends TestCase {
     public void testSize() throws Exception {
+        OtusArrayList<String> list = new OtusArrayList<>(3);
+        list.add("alpha");
+        list.add("gamma");
+        list.add("beta");
+        assertEquals(3, list.size());
     }
 
     public void testIsEmpty() throws Exception {
+        OtusArrayList<String> list = new OtusArrayList<>(5);
+        assertTrue(list.isEmpty());
     }
 
     public void testContains() throws Exception {
