@@ -83,6 +83,19 @@ public class OtusArrayListTest extends TestCase {
     public void testSubList() throws Exception {
     }
 
+    public void testCollectionsAddAll() throws Exception {
+        OtusArrayList<String> list = new OtusArrayList<>(3);
+        list.add("alpha");
+        list.add("gamma");
+        list.add("beta");
+        Collections.addAll(list, "delta","epsilon");
+        assertEquals("alpha", list.get(0));
+        assertEquals("gamma", list.get(1));
+        assertEquals("beta", list.get(2));
+        assertEquals("delta", list.get(3));
+        assertEquals("epsilon", list.get(4));
+    }
+
     public void testSort() throws Exception {
         OtusArrayList<String> list = new OtusArrayList<>(3);
         list.add("alpha");
