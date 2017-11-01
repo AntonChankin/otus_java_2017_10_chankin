@@ -21,66 +21,29 @@ public class OtusArrayListTest extends TestCase {
     }
 
     public void testContains() throws Exception {
-    }
-
-    public void testIterator() throws Exception {
-    }
-
-    public void testToArray() throws Exception {
-    }
-
-    public void testToArray1() throws Exception {
+        OtusArrayList<String> list = new OtusArrayList<>(3);
+        list.add("alpha");
+        list.add("gamma");
+        list.add("beta");
+        assertTrue(list.contains("gamma"));
     }
 
     public void testAdd() throws Exception {
+        OtusArrayList<String> list = new OtusArrayList<>(2);
+        list.add("alpha");
+        list.add("gamma");
+        list.add("beta");
+        assertEquals("beta", list.get(2));
     }
 
     public void testRemove() throws Exception {
-    }
-
-    public void testContainsAll() throws Exception {
-    }
-
-    public void testAddAll() throws Exception {
-    }
-
-    public void testAddAll1() throws Exception {
-    }
-
-    public void testRemoveAll() throws Exception {
-    }
-
-    public void testRetainAll() throws Exception {
-    }
-
-    public void testClear() throws Exception {
-    }
-
-    public void testGet() throws Exception {
-    }
-
-    public void testSet() throws Exception {
-    }
-
-    public void testAdd1() throws Exception {
-    }
-
-    public void testRemove1() throws Exception {
-    }
-
-    public void testIndexOf() throws Exception {
-    }
-
-    public void testLastIndexOf() throws Exception {
-    }
-
-    public void testListIterator() throws Exception {
-    }
-
-    public void testListIterator1() throws Exception {
-    }
-
-    public void testSubList() throws Exception {
+        OtusArrayList<String> list = new OtusArrayList<>(2);
+        list.add("alpha");
+        list.add("gamma");
+        list.add("beta");
+        assertTrue(list.remove("gamma"));
+        assertEquals("alpha", list.get(0));
+        assertEquals("beta", list.get(1));
     }
 
     public void testCollectionsAddAll() throws Exception {
