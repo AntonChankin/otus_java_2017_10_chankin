@@ -340,7 +340,7 @@ public class OtusArrayList<E> implements List<E> {
         }
     }
 
-    private class SubList extends AbstractList<E> implements RandomAccess {       //TODO: Implement sublist
+    private class SubList extends AbstractList<E> implements RandomAccess {
         private final OtusArrayList<E> parent;
         private final int start;
         private final int finish;
@@ -354,22 +354,22 @@ public class OtusArrayList<E> implements List<E> {
 
         @Override
         public E get(int index) {
-            return null;
+            return parent.get(start + index);
         }
 
         @Override
         public int size() {
-            return 0;
+            return finish - start;
         }
 
         @Override
         public void replaceAll(UnaryOperator<E> operator) {
-
+            //TODO: Implement SubList.replaceAll
         }
 
         @Override
         public void sort(Comparator<? super E> c) {
-
+            //TODO: Implement SubList.sort
         }
     }
 }
