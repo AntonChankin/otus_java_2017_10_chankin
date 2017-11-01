@@ -4,6 +4,7 @@ import junit.framework.TestCase;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class OtusArrayListTest extends TestCase {
@@ -81,5 +82,21 @@ public class OtusArrayListTest extends TestCase {
         assertEquals(list.get(0),target.get(0));
         assertEquals(list.get(1),target.get(1));
         assertEquals(list.get(2),target.get(2));
+    }
+
+    public void testSubListSort() throws Exception {
+        OtusArrayList<Integer> list = new OtusArrayList<>(5);
+        list.add(2);
+        list.add(2);
+        list.add(1);
+        list.add(4);
+        list.add(1);
+        List<Integer> subList = list.subList(1,3);
+        subList.sort(Comparator.naturalOrder());
+        assertEquals(Integer.valueOf(2), list.get(0));
+        assertEquals(Integer.valueOf(1), list.get(1));
+        assertEquals(Integer.valueOf(2), list.get(2));
+        assertEquals(Integer.valueOf(4), list.get(3));
+        assertEquals(Integer.valueOf(1), list.get(4));
     }
 }

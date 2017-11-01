@@ -344,7 +344,6 @@ public class OtusArrayList<E> implements List<E> {
         private final OtusArrayList<E> parent;
         private final int start;
         private final int finish;
-        int size;
 
         public SubList(OtusArrayList<E> parent, int start, int finish) {
             this.parent = parent;
@@ -364,12 +363,17 @@ public class OtusArrayList<E> implements List<E> {
 
         @Override
         public void replaceAll(UnaryOperator<E> operator) {
-            //TODO: Implement SubList.replaceAll
+            for (int i = start; i < finish + 1; i++) {
+                array[i] = operator.apply((E)array[i]);
+            }
         }
 
         @Override
         public void sort(Comparator<? super E> c) {
-            //TODO: Implement SubList.sort
+            E[] sorting = (E[])new Object[finish - start];
+            System.arraycopy(array, start, sorting, 0, finish - start);
+            Arrays.sort(sorting, c);
+            System.arraycopy(sorting, 0, array, start, finish - start);
         }
     }
 }
