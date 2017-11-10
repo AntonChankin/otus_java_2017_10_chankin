@@ -9,7 +9,7 @@ public class App
     public static void main( String[] args ) throws Exception {
         int size = 50 * 1000 * 100;
         GCListener.installGCMonitoring();
-        Crasher memoryTest = new Crasher();
+        Crasher memoryTest = new Crasher(size);
         memoryTest.generateOOM();
     }
 }
