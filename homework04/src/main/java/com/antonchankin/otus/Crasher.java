@@ -4,26 +4,29 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class Crasher {
+    private volatile int size = 0;
+
+    public Crasher(int size) {
+        this.size = size;
+    }
+
     public static void main(String[] args) throws Exception {
-        Crasher memoryTest = new Crasher();
+        int size = 5 * 1000 * 1000;
+        Crasher memoryTest = new Crasher(size);
         memoryTest.generateOOM();
     }
 
     public void generateOOM() throws Exception {
-        int iteratorValue = 20;
-        log.info("\n=================> OOM test started..\n");
-        for (int outerIterator = 1; outerIterator < 20; outerIterator++) {
-            log.info("Iteration " + outerIterator + " Free Mem: " + Runtime.getRuntime().freeMemory());
-            int loop1 = 2;
-            int[] memoryFillIntVar = new int[iteratorValue];
-            // feel memoryFillIntVar array in loop..
-            do {
-                memoryFillIntVar[loop1] = 0;
-                loop1--;
-            } while (loop1 > 0);
-            iteratorValue = iteratorValue * 5;
-            log.info("\nRequired Memory for next loop: " + iteratorValue);
-            Thread.sleep(1000);
+        log.info("Starting the loop");
+        while (true) {
+            int local = size;
+            Object[] array = new Object[local];
+            log.info("Array of size: " + array.length + " created");
+
+            for (int i = 0; i < local; i++) {
+                array[i] = new String(new char[0]);
+            }
+            log.info("Created " + local + " objects.");
         }
     }
 
