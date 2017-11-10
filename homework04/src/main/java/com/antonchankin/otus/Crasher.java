@@ -6,8 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 public class Crasher {
     private volatile int size = 0;
 
-    public Crasher(int size) {
-        this.size = size;
+    public Crasher(int startSize) {
+        this.size = startSize;
     }
 
     public static void main(String[] args) throws Exception {
@@ -18,8 +18,9 @@ public class Crasher {
 
     public void generateOOM() throws Exception {
         log.info("Starting the loop");
+        int iterationSize = size;
         while (true) {
-            int local = size;
+            int local = iterationSize;
             Object[] array = new Object[local];
             log.info("Array of size: " + array.length + " created");
 
@@ -27,6 +28,9 @@ public class Crasher {
                 array[i] = new String(new char[0]);
             }
             log.info("Created " + local + " objects.");
+            iterationSize = iterationSize * 10;
+            log.info("Required Memory for next loop: " + iterationSize);
+            Thread.sleep(1000);
         }
     }
 
