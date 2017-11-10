@@ -23,7 +23,7 @@ public class GCListener implements NotificationListener {
 
     public GCListener(int id) {
         this.id = id;
-        Thread.currentThread().setName("Listener-Thread-" + id);
+        log.info("I'm Listener #" + id);
     }
 
     public static void installGCMonitoring(){
@@ -58,10 +58,10 @@ public class GCListener implements NotificationListener {
                 gcType = "Old Gen GC";
             }
 
-            log.info(gcType + ": - " + info.getGcInfo().getId()+ " " + info.getGcName() + " (from " + info.getGcCause()+") "+duration + " milliseconds; start-end times " + info.getGcInfo().getStartTime()+ "-" + info.getGcInfo().getEndTime());
-            log.info("GcInfo CompositeType: " + info.getGcInfo().getCompositeType());
-            log.info("GcInfo MemoryUsageAfterGc: " + info.getGcInfo().getMemoryUsageAfterGc());
-            log.info("GcInfo MemoryUsageBeforeGc: " + info.getGcInfo().getMemoryUsageBeforeGc());
+            log.info("Listener#" + id + ": " + gcType + ": - " + info.getGcInfo().getId()+ " " + info.getGcName() + " (from " + info.getGcCause()+") "+duration + " milliseconds; start-end times " + info.getGcInfo().getStartTime()+ "-" + info.getGcInfo().getEndTime());
+            log.info("Listener#" + id + ": " + " GcInfo CompositeType: " + info.getGcInfo().getCompositeType());
+            log.info("Listener#" + id + ": " + " GcInfo MemoryUsageAfterGc: " + info.getGcInfo().getMemoryUsageAfterGc());
+            log.info("Listener#" + id + ": " + " GcInfo MemoryUsageBeforeGc: " + info.getGcInfo().getMemoryUsageBeforeGc());
 
             //Get the information about each memory space, and pretty print it
             Map<String, MemoryUsage> memBefore = info.getGcInfo().getMemoryUsageBeforeGc();
@@ -77,12 +77,12 @@ public class GCListener implements NotificationListener {
                 long beforepercent = ((before.getUsed()*1000L)/before.getCommitted());
                 long percent = ((memUsed*1000L)/before.getCommitted()); //>100% when it gets expanded
 
-                log.info(name + (memCommitted==memMax?"(fully expanded)":"(still expandable)") +"used: "+(beforepercent/10)+"."+(beforepercent%10)+"%->"+(percent/10)+"."+(percent%10)+"%("+((memUsed/1048576)+1)+"MB) / ");
+                log.info("Listener#" + id + ": " + name + (memCommitted==memMax?"(fully expanded)":"(still expandable)") +"used: "+(beforepercent/10)+"."+(beforepercent%10)+"%->"+(percent/10)+"."+(percent%10)+"%("+((memUsed/1048576)+1)+"MB) / ");
             }
 
             totalGcDuration += info.getGcInfo().getDuration();
             long percent = totalGcDuration*1000L/info.getGcInfo().getEndTime();
-            log.info("GC cumulative overhead "+(percent/10)+"."+(percent%10)+"%");
+            log.info("Listener#" + id + ": " + "GC cumulative overhead "+(percent/10)+"."+(percent%10)+"%");
         }
     }
 }
