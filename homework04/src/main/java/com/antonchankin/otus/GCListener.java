@@ -81,6 +81,7 @@ public class GCListener implements NotificationListener {
             }
 
             totalGcDuration += info.getGcInfo().getDuration();
+            //TODO: Log total GC Duration to separate file
             long percent = totalGcDuration*1000L/info.getGcInfo().getEndTime();
             log.info("Listener#" + id + ": " + "GC cumulative overhead "+(percent/10)+"."+(percent%10)+"%");
         }
