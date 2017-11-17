@@ -6,7 +6,7 @@ import com.antonchankin.otus.annotations.Test;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class TestDummy {
+public class AnotherTestDummy {
 
     @Before
     public void beforeMethodAlpha(){
