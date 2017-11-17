@@ -2,15 +2,21 @@ package com.antonchankin.otus;
 
 import com.sun.management.GarbageCollectionNotificationInfo;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 import javax.management.Notification;
 import javax.management.NotificationEmitter;
 import javax.management.NotificationListener;
 import javax.management.openmbean.CompositeData;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.lang.management.GarbageCollectorMXBean;
 import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryUsage;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -20,10 +26,21 @@ public class GCListener implements NotificationListener {
     private final int id;
     //keep a count of the total time spent in GCs
     private long totalGcDuration = 0;
+    private File recorder;
+    private FileOutputStream fop = null;
+    private String name = "NONE";
 
     public GCListener(int id) {
         this.id = id;
         log.info("I'm Listener #" + id);
+        this.recorder = new File("gc_" + id + ".csv");
+    }
+
+    public GCListener(int id, String name) {
+        this.id = id;
+        log.info("I'm Listener #" + id);
+        this.name = name;
+        this.recorder = new File("gc_" + name + ".csv");
     }
 
     public static void installGCMonitoring(){
@@ -37,7 +54,7 @@ public class GCListener implements NotificationListener {
             NotificationEmitter emitter = (NotificationEmitter) gcBean;
             //use an anonymously generated listener for this example
             // - proper code should really use a named class
-            NotificationListener listener = new GCListener(counter++);
+            NotificationListener listener = new GCListener(counter++, gcBean.getName());
             //Add the listener
             emitter.addNotificationListener(listener, null, null);
         }
@@ -79,11 +96,46 @@ public class GCListener implements NotificationListener {
 
                 log.info("Listener#" + id + ": " + name + (memCommitted==memMax?"(fully expanded)":"(still expandable)") +"used: "+(beforepercent/10)+"."+(beforepercent%10)+"%->"+(percent/10)+"."+(percent%10)+"%("+((memUsed/1048576)+1)+"MB) / ");
             }
-
             totalGcDuration += info.getGcInfo().getDuration();
-            //TODO: Log total GC Duration to separate file
+            
+            record(gcType,totalGcDuration);
             long percent = totalGcDuration*1000L/info.getGcInfo().getEndTime();
             log.info("Listener#" + id + ": " + "GC cumulative overhead "+(percent/10)+"."+(percent%10)+"%");
+        }
+    }
+
+    @Override
+    protected void finalize() throws Throwable {
+        try {
+            if (fop != null) {
+                fop.close();
+            }
+        } catch (Exception e) {
+            log.error("Cannot close recorder", e);
+        }
+        super.finalize();
+    }
+
+    private void record(String gcType, long totalGcDuration) {
+        try {
+            boolean isThereAFile = recorder.exists();
+            if (!isThereAFile) {
+                isThereAFile = recorder.createNewFile();
+            }
+            if (isThereAFile) {
+                fop = fop != null ? fop : new FileOutputStream(recorder);
+            } else {
+                log.warn("Cannot write statistics: no file");
+            }
+            if (fop != null) {
+                Date date = new Date();
+                String line = "" + date.getTime() + ',' + gcType + ',' + totalGcDuration;
+                byte[] contentInBytes = line.getBytes();
+                fop.write(contentInBytes);
+                fop.flush();
+            }
+        } catch (IOException e) {
+            log.error("Failed to write statistics", e);
         }
     }
 }

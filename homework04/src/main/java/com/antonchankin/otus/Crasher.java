@@ -13,7 +13,8 @@ public class Crasher {
     public static void main(String[] args) throws Exception {
         int size = 5 * 1000 * 1000;
         Crasher memoryTest = new Crasher(size);
-        memoryTest.generateOOM();
+        //memoryTest.generateOOM();
+        memoryTest.run();
     }
 
     public void generateOOM() throws Exception {
@@ -34,4 +35,19 @@ public class Crasher {
         }
     }
 
+    public void run() throws Exception {
+        log.info("Starting the loop");
+        int iterationSize = size;
+        while (true) {
+            int local = iterationSize;
+            Object[] array = new Object[local];
+            log.info("Array of size: " + array.length + " created");
+
+            for (int i = 0; i < local; i++) {
+                array[i] = new String(new char[0]);
+            }
+            log.info("Created " + local + " objects.");
+            Thread.sleep(1000);
+        }
+    }
 }

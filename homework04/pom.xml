@@ -52,7 +52,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>com.antonchankin.otus.hw01.App</mainClass>
+                            <mainClass>com.antonchankin.otus.App</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
@@ -76,7 +76,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>com.antonchankin.otus.hw01.App</mainClass>
+                            <mainClass>com.antonchankin.otus.App</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
