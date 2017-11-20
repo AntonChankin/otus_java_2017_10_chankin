@@ -25,10 +25,11 @@ import java.util.Set;
 public class Tester {
 
     public boolean runTests(String name) {
-        boolean isSuccessful = false;
+        boolean isSuccessful;
         boolean isClass = false;
         try {
             Class clazz = Class.forName(name);
+            log.debug("The class is " + clazz);
             isClass = true;
         } catch (ClassNotFoundException e) {
             log.debug("The " + name + " is not a Class");
@@ -42,54 +43,17 @@ public class Tester {
     }
 
     public boolean runTestsByClass(String name) {
-        boolean isSuccessful = false;
-        boolean isFirst = true;
+        boolean isSuccessful = true;
         log.info("Running tests for Class " + name);
         try {
             Class<?> clazz = Class.forName(name);
             Map<Class<? extends Annotation>,List<Method>> map = getMethodsMap(clazz);
             for (Method test : map.get(Test.class)) {
-                log.info("Running test " + test.getName());
-                try {
-                    Object instance = clazz.newInstance();
-                    for (Method before : map.get(Before.class)) {
-                        try {
-                            log.info("Invoking before method " + before.getName());
-                            before.invoke(instance);
-                        } catch (InvocationTargetException e) {
-                            log.error("Cannot invoke before method " + before.getName(), e);
-                        }
-                    }
-                    log.info("Running test " + test.getName() + "...");
-                    Object result = test.invoke(instance);
-                    if (result instanceof Boolean){
-                        if (isFirst) {
-                            isSuccessful = (Boolean)result;
-                            isFirst = false;
-                        } else {
-                            isSuccessful = (Boolean)result && isSuccessful;
-                        }
-                        log.info("Result of " + test.getName() + " is " + result);
-                    } else {
-                        isSuccessful = false;
-                        log.info("Test " + test.getName() + " failed");
-                    }
-
-                    for (Method after : map.get(After.class)) {
-                        try {
-                            log.info("Invoking after method " + after.getName());
-                            after.invoke(instance);
-                        } catch (InvocationTargetException e) {
-                            log.error("Cannot invoke after method " + after.getName(), e);
-                        }
-                    }
-
-                } catch (InvocationTargetException e) {
-                    e.printStackTrace();
-                }
+                isSuccessful = runTest(test, clazz, map) && isSuccessful;
             }
         } catch (ClassNotFoundException e) {
             log.error("No such class: " + name);
+            isSuccessful = false;
         } catch (IllegalAccessException e) {
             log.error("Cannot access default constructor for class: " + name, e);
             isSuccessful = false;
@@ -98,6 +62,40 @@ public class Tester {
             isSuccessful = false;
         }
         return isSuccessful;
+    }
+
+    private boolean runTest(Method test, Class<?> clazz, Map<Class<? extends Annotation>, List<Method>> map) throws IllegalAccessException, InstantiationException {
+        boolean isSuccessful;
+        log.info("Running test " + test.getName());
+        try {
+            Object instance = clazz.newInstance();
+            runMethodWithAnnotation(map, instance, Before.class);
+            log.info("Running test " + test.getName() + "...");
+            Object result = test.invoke(instance);
+            if (result instanceof Boolean){
+                isSuccessful = (Boolean)result;
+                log.info("Result of " + test.getName() + " is " + result);
+            } else {
+                isSuccessful = false;
+                log.info("Test " + test.getName() + " failed");
+            }
+            runMethodWithAnnotation(map, instance, After.class);
+        } catch (InvocationTargetException e) {
+            log.error("Cannot invoke test method", e);
+            isSuccessful = false;
+        }
+        return isSuccessful;
+    }
+
+    private void runMethodWithAnnotation(Map<Class<? extends Annotation>, List<Method>> map, Object instance, Class<? extends Annotation> clazz) throws IllegalAccessException {
+        for (Method method : map.get(clazz)) {
+            try {
+                log.info("Invoking method " + method.getName());
+                method.invoke(instance);
+            } catch (InvocationTargetException e) {
+                log.error("Cannot invoke method " + method.getName(), e);
+            }
+        }
     }
 
     private static Map<Class<? extends Annotation>,List<Method>> getMethodsMap(Class<?> clazz){
