@@ -3,10 +3,11 @@ package com.antonchankin.otus.dummies;
 import com.antonchankin.otus.annotations.After;
 import com.antonchankin.otus.annotations.Before;
 import com.antonchankin.otus.annotations.Test;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-@Slf4j
 public class AnotherTestDummy {
+    private static final Logger log = LoggerFactory.getLogger(AnotherTestDummy.class);
 
     @Before
     public void beforeMethodAlpha(){

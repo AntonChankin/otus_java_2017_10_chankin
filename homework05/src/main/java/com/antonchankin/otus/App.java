@@ -1,12 +1,10 @@
 package com.antonchankin.otus;
 
-import lombok.extern.slf4j.Slf4j;
-
 /**
- * Hello world!
+ * Let's test the Testing Framework
  *
  */
-@Slf4j
+
 public class App 
 {
     public static void main( String[] args )

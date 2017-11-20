@@ -3,13 +3,14 @@ package com.antonchankin.otus;
 import com.antonchankin.otus.annotations.After;
 import com.antonchankin.otus.annotations.Before;
 import com.antonchankin.otus.annotations.Test;
-import lombok.extern.slf4j.Slf4j;
 import org.reflections.Reflections;
 import org.reflections.scanners.ResourcesScanner;
 import org.reflections.scanners.SubTypesScanner;
 import org.reflections.util.ClasspathHelper;
 import org.reflections.util.ConfigurationBuilder;
 import org.reflections.util.FilterBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
@@ -21,8 +22,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-@Slf4j
+
 public class Tester {
+    private static final Logger log = LoggerFactory.getLogger(Tester.class);
 
     public boolean runTests(String name) {
         boolean isSuccessful;
