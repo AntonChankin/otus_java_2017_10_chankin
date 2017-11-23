@@ -20,7 +20,9 @@ public class Crasher {
     public void generateOOM() throws Exception {
         log.info("Starting the loop");
         int iterationSize = size;
+        int iteration = 0;
         while (true) {
+            log.info("Iteration#" + iteration++);
             int local = iterationSize;
             Object[] array = new Object[local];
             log.info("Array of size: " + array.length + " created");
@@ -29,9 +31,9 @@ public class Crasher {
                 array[i] = new String(new char[0]);
             }
             log.info("Created " + local + " objects.");
-            iterationSize = iterationSize * 10;
+            iterationSize = iterationSize * 2;
             log.info("Required Memory for next loop: " + iterationSize);
-            Thread.sleep(1000);
+            Thread.sleep(100);
         }
     }
 
