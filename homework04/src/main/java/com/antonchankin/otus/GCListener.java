@@ -134,25 +134,25 @@ public class GCListener implements NotificationListener {
         Date date = new Date();
         StringBuilder builder = new StringBuilder();
         builder.append(date.getTime());
-        builder.append(',');
+        builder.append(';');
         builder.append(gcType);
-        builder.append(',');
+        builder.append(';');
         builder.append(totalGcDuration);
-        builder.append(',');
+        builder.append(';');
         builder.append(totalUsedBefore);
-        builder.append(',');
+        builder.append(';');
         builder.append(totalUsedAfter);
-        builder.append(',');
+        builder.append(';');
         builder.append(totalCommittedBefore);
-        builder.append(',');
+        builder.append(';');
         builder.append(totalCommittedAfter);
-        builder.append(',');
+        builder.append(';');
         builder.append(totalMaxBefore);
-        builder.append(',');
+        builder.append(';');
         builder.append(totalMaxAfter);
-        builder.append(',');
+        builder.append(';');
         builder.append(totalInitBefore);
-        builder.append(',');
+        builder.append(';');
         builder.append(totalInitAfter);
         String line = builder.toString();
         appendToFile(line, gcName + ".csv");
@@ -167,7 +167,7 @@ public class GCListener implements NotificationListener {
                     if (!file.exists()) {
                         file.createNewFile();
                     }
-                    fop.write("TIMESTAMP,TYPE,DURATION,USED_BEFORE,USED_AFTER,COMMITTED_BEFORE,COMMITTED_AFTER,MAX_BEFORE,MAX_AFTER,INIT_BEFORE,INIT_AFTER\n".getBytes());
+                    fop.write("TIMESTAMP;TYPE;DURATION;USED_BEFORE;USED_AFTER;COMMITTED_BEFORE;COMMITTED_AFTER;MAX_BEFORE;MAX_AFTER;INIT_BEFORE;INIT_AFTER\n".getBytes());
                 }
                 // get the content in bytes
                 if (fop != null) {
