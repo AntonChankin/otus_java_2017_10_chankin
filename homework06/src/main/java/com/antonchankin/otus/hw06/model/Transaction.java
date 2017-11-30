@@ -5,15 +5,9 @@ import java.util.Date;
 import java.util.Objects;
 
 public final class Transaction {
-    private BigInteger account;
-    private Integer amount;
-    private Date timestamp;
-
-    public Transaction() {
-        this.account = BigInteger.valueOf(-1);
-        this.amount = 0;
-        this.timestamp = new Date();
-    }
+    private final BigInteger account;
+    private final Integer amount;
+    private final Date timestamp;
 
     public Transaction(BigInteger account, Integer amount, Date timestamp) {
         this.account = account;
@@ -25,24 +19,12 @@ public final class Transaction {
         return account;
     }
 
-    public void setAccount(BigInteger account) {
-        this.account = account;
-    }
-
     public Integer getAmount() {
         return amount;
     }
 
-    public void setAmount(Integer amount) {
-        this.amount = amount;
-    }
-
     public Date getTimestamp() {
         return timestamp;
-    }
-
-    public void setTimestamp(Date timestamp) {
-        this.timestamp = timestamp;
     }
 
     @Override
