@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface CashDispenser {
+
     boolean dispense(CashUnit unit);
 
     boolean dispense(List<CashUnit> units);
