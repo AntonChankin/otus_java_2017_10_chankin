@@ -10,6 +10,9 @@ public final class Transaction {
     private Date timestamp;
 
     public Transaction() {
+        this.account = BigInteger.valueOf(-1);
+        this.amount = 0;
+        this.timestamp = new Date();
     }
 
     public Transaction(BigInteger account, Integer amount, Date timestamp) {
