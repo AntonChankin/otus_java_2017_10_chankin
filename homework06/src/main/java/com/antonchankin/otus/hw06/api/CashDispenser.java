@@ -14,4 +14,6 @@ public interface CashDispenser {
     Map<Integer,String> getDenominationsNames();
 
     List<CashUnit> getAvailable();
+
+    Map<Integer,Integer> getDenominations();
 }

@@ -5,6 +5,7 @@ import com.antonchankin.otus.hw06.model.Cartridge;
 import com.antonchankin.otus.hw06.model.CashUnit;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -45,11 +46,28 @@ public class CashDispenserImpl implements CashDispenser {
 
     @Override
     public Map<Integer, String> getDenominationsNames() {
-        return null;
+        Map<Integer, String> denominations = new HashMap<>(cartridges.size());
+        for (Cartridge cartridge : cartridges) {
+            denominations.put(cartridge.getId(), cartridge.getDenominationName());
+        }
+        return denominations;
     }
 
     @Override
     public List<CashUnit> getAvailable() {
-        return null;
+        List<CashUnit> units = new ArrayList<>(cartridges.size());
+        for (Cartridge cartridge : cartridges) {
+            units.add(new CashUnit(cartridge.getId(), cartridge.getAmount()));
+        }
+        return units;
+    }
+
+    @Override
+    public Map<Integer, Integer> getDenominations() {
+        Map<Integer, Integer> denominations = new HashMap<>(cartridges.size());
+        for (Cartridge cartridge : cartridges) {
+            denominations.put(cartridge.getId(), cartridge.getDenomination());
+        }
+        return denominations;
     }
 }

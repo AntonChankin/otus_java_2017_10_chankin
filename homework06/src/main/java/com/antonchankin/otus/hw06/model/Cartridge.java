@@ -4,25 +4,32 @@ import java.util.Objects;
 
 public final class Cartridge {
     private final int id;
-    private final String denomination;
+    private final String denominationName;
     private final int amount;
+    private final int denomination;
 
-    public Cartridge(int id, String denomination, int amount) {
+
+    public Cartridge(int id, String denominationName, int amount, int denomination) {
         this.id = id;
-        this.denomination = denomination;
+        this.denominationName = denominationName;
         this.amount = amount;
+        this.denomination = denomination;
     }
 
     public int getId() {
         return id;
     }
 
-    public String getDenomination() {
-        return denomination;
+    public String getDenominationName() {
+        return denominationName;
     }
 
     public int getAmount() {
         return amount;
+    }
+
+    public int getDenomination() {
+        return denomination;
     }
 
     @Override
@@ -31,21 +38,22 @@ public final class Cartridge {
         if (!(o instanceof Cartridge)) return false;
         Cartridge cartridge = (Cartridge) o;
         return id == cartridge.id &&
-                amount == cartridge.amount &&
-                Objects.equals(denomination, cartridge.denomination);
+                denomination == cartridge.denomination &&
+                Objects.equals(denominationName, cartridge.denominationName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, denomination, amount);
+        return Objects.hash(id, denominationName, denomination);
     }
 
     @Override
     public String toString() {
         final StringBuffer sb = new StringBuffer("Cartridge{");
         sb.append("id=").append(id);
-        sb.append(", denomination='").append(denomination).append('\'');
+        sb.append(", denominationName='").append(denominationName).append('\'');
         sb.append(", amount=").append(amount);
+        sb.append(", denomination=").append(denomination);
         sb.append('}');
         return sb.toString();
     }
