@@ -92,6 +92,15 @@ public class CashDispenserImpl implements CashDispenser, CartredgeChangeSubject 
     }
 
     @Override
+    public int getMinDenomination() {
+        int min = 0;
+        for (Cartridge cartridge : cartridges) {
+            min = cartridge.getDenomination() < min ? cartridge.getDenomination() : min;
+        }
+        return min;
+    }
+
+    @Override
     public void attach(CartridgeChangeObserver observer) {
         listener = observer;
     }

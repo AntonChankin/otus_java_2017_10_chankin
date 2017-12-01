@@ -45,6 +45,11 @@ public class CashDispenserProxy implements CashDispenser, CartridgeChangeObserve
     }
 
     @Override
+    public int getMinDenomination() {
+        return 0;                 //TODO: #10
+    }
+
+    @Override
     public void onCartridgeChanged() {
         //TODO: #10 Reset
     }

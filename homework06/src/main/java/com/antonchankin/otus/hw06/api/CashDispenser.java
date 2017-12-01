@@ -18,4 +18,6 @@ public interface CashDispenser {
     Map<Integer,Integer> getDenominations();
 
     int getMaxDenomination();
+
+    int getMinDenomination();
 }
