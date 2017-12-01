@@ -31,12 +31,20 @@ public class WithdrawSingleton implements WithdrawLogic {
     }
 
     @Override
-    public boolean dispenseLargeDenominations(Transaction transaction) {
-        return false;
+    public boolean dispenseLargeDenominations(Transaction transaction) {     //TODO: #8
+        boolean isDispensed = false;
+        Integer amount = transaction.getAmount();
+        if (amount > 0) {
+            int max = dispenser.getMaxDenomination();
+            
+        }
+        return isDispensed;
     }
 
     @Override
-    public boolean dispenseWithSpare(Transaction transaction) {
-        return false;
+    public boolean dispenseWithSpare(Transaction transaction) {             //TODO: #8
+        boolean isDispensed = false;
+        
+        return isDispensed;
     }
 }
