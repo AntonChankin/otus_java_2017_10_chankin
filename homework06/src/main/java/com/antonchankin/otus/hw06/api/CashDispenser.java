@@ -16,4 +16,6 @@ public interface CashDispenser {
     List<CashUnit> getAvailable();
 
     Map<Integer,Integer> getDenominations();
+
+    int getMaxDenomination();
 }

@@ -1,5 +1,7 @@
 package com.antonchankin.otus.hw06.impl;
 
+import com.antonchankin.otus.hw06.api.CartredgeChangeSubject;
+import com.antonchankin.otus.hw06.api.CartridgeChangeObserver;
 import com.antonchankin.otus.hw06.api.CashDispenser;
 import com.antonchankin.otus.hw06.model.Cartridge;
 import com.antonchankin.otus.hw06.model.CashUnit;
@@ -9,8 +11,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CashDispenserImpl implements CashDispenser {
+public class CashDispenserImpl implements CashDispenser, CartredgeChangeSubject {
     private List<Cartridge> cartridges;
+    private CartridgeChangeObserver listener;
 
     public CashDispenserImpl() {
         this.cartridges = new ArrayList<>(0);
@@ -21,27 +24,35 @@ public class CashDispenserImpl implements CashDispenser {
     }
 
     public void load(Cartridge cartridge){
-        cartridges.add(cartridge);
+        if (cartridge != null) {
+            cartridges.add(cartridge);
+            listener.onCartridgeChanged();
+        }
     }
 
     public void replace(Cartridge empty, Cartridge full){
         if (cartridges.remove(empty)) {
             cartridges.add(full);
+            listener.onCartridgeChanged();
         }
     }
 
     public void remove(Cartridge cartridge){
-        cartridges.remove(cartridge);
+        if (cartridge != null) {
+            cartridges.remove(cartridge);
+            listener.onCartridgeChanged();
+        }
     }
 
     @Override
     public boolean dispense(CashUnit unit) {
-        return false;
+
+        return false; //TODO: #4
     }
 
     @Override
     public boolean dispense(List<CashUnit> units) {
-        return false;
+        return false;//TODO: #4
     }
 
     @Override
@@ -69,5 +80,19 @@ public class CashDispenserImpl implements CashDispenser {
             denominations.put(cartridge.getId(), cartridge.getDenomination());
         }
         return denominations;
+    }
+
+    @Override
+    public int getMaxDenomination() {
+        int max = 0;
+        for (Cartridge cartridge : cartridges) {
+            max = cartridge.getDenomination() > max ? cartridge.getDenomination() : max;
+        }
+        return max;
+    }
+
+    @Override
+    public void attach(CartridgeChangeObserver observer) {
+        listener = observer;
     }
 }

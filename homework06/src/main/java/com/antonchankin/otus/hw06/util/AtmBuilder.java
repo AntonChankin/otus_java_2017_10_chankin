@@ -4,10 +4,7 @@ import com.antonchankin.otus.hw06.ATM;
 import com.antonchankin.otus.hw06.api.BankConnector;
 import com.antonchankin.otus.hw06.api.CashDispenser;
 import com.antonchankin.otus.hw06.api.WithdrawLogic;
-import com.antonchankin.otus.hw06.impl.MockBank;
-import com.antonchankin.otus.hw06.impl.BankConnectorContext;
-import com.antonchankin.otus.hw06.impl.CashDispenserImpl;
-import com.antonchankin.otus.hw06.impl.WithdrawSingleton;
+import com.antonchankin.otus.hw06.impl.*;
 import com.antonchankin.otus.hw06.model.Cartridge;
 
 import java.util.List;
@@ -52,6 +49,7 @@ public class AtmBuilder {
         ATM atm = null;
         if (host != null && port != null && user != null && password != null && cartridges != null) {
             CashDispenser dispenser = new CashDispenserImpl(cartridges);
+            dispenser = new CashDispenserProxy(dispenser);
             WithdrawLogic logic = WithdrawSingleton.getInstance();
             logic.setCashDispenser(dispenser);
             BankConnector connector = new MockBank();
