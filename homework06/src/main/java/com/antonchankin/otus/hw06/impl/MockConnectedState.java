@@ -21,6 +21,10 @@ public class MockConnectedState implements BankConnectionState {
         this.port = port;
         this.user = user;
         this.password = password;
+
+        accounts.put(BigInteger.valueOf(134533541543l),new BigDecimal("12334.56"));
+        accounts.put(BigInteger.valueOf(134533546461l),new BigDecimal("11.41"));
+        accounts.put(BigInteger.valueOf(134533547986l),new BigDecimal("300.00"));
     }
 
     @Override

@@ -3,7 +3,7 @@ package com.antonchankin.otus.hw06.impl;
 import com.antonchankin.otus.hw06.api.BankConnectionState;
 import com.antonchankin.otus.hw06.api.BankConnector;
 
-public class Bank implements BankConnector {
+public class MockBank implements BankConnector {
 
     @Override
     public BankConnectorContext connectToBank(String host, int port, String user, String password) {
@@ -18,7 +18,7 @@ public class Bank implements BankConnector {
         return context;
     }
 
-    public boolean connect(String host, int port, String user, String password) {
+    private boolean connect(String host, int port, String user, String password) {
         return true;
     }
 }
