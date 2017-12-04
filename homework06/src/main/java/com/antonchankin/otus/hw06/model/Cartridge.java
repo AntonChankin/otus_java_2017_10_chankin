@@ -5,7 +5,7 @@ import java.util.Objects;
 public final class Cartridge {
     private final int id;
     private final String denominationName;
-    private final int amount;
+    private int amount;
     private final int denomination;
 
 
@@ -30,6 +30,10 @@ public final class Cartridge {
 
     public int getDenomination() {
         return denomination;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
     }
 
     @Override
