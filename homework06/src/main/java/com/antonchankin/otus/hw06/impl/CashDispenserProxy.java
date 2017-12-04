@@ -9,9 +9,17 @@ import java.util.Map;
 
 public class CashDispenserProxy implements CashDispenser, CartridgeChangeObserver {
     CashDispenser real;
+    Map<Integer, String> denominationsNames;
+    Map<Integer, Integer> denominations;
+    Integer maxDenomination;
+    Integer minDenomination;
 
     public CashDispenserProxy(CashDispenser real) {
         this.real = real;
+        this.denominationsNames = real.getDenominationsNames();
+        this.denominations = real.getDenominations();
+        this.maxDenomination = real.getMaxDenomination();
+        this.minDenomination = real.getMinDenomination();
     }
 
     @Override
@@ -26,7 +34,7 @@ public class CashDispenserProxy implements CashDispenser, CartridgeChangeObserve
 
     @Override
     public Map<Integer, String> getDenominationsNames() {
-        return real.getDenominationsNames();   //TODO: #10
+        return denominationsNames;
     }
 
     @Override
@@ -36,21 +44,24 @@ public class CashDispenserProxy implements CashDispenser, CartridgeChangeObserve
 
     @Override
     public Map<Integer, Integer> getDenominations() {
-        return null;                    //TODO: #10
+        return denominations;
     }
 
     @Override
     public int getMaxDenomination() {
-        return 0;                //TODO: #10
+        return maxDenomination;
     }
 
     @Override
     public int getMinDenomination() {
-        return 0;                 //TODO: #10
+        return minDenomination;
     }
 
     @Override
     public void onCartridgeChanged() {
-        //TODO: #10 Reset
+        this.denominationsNames = real.getDenominationsNames();
+        this.denominations = real.getDenominations();
+        this.maxDenomination = real.getMaxDenomination();
+        this.minDenomination = real.getMinDenomination();
     }
 }
